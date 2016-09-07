@@ -1,0 +1,27 @@
+
+  <!-- Add memo-->
+  <div class="container">
+
+  </div>
+  <!-- List memos -->
+  <div class="container">
+    Hola
+    {{username}}
+    {{password}}
+    <div ng-app="myApp" >
+      <table>
+        <tr ng-repeat="memo in res.message.memos">
+          <td>{{ memo._id }}</td>
+          <td>{{ memo.text }}</td>
+          <td>{{ memo.date }}</td>
+          <td>{{ memo.route_file }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <script>
+    var app = angular.module('myApp', []);
+    app.controller('welcomeCtrl', function($scope, $http, $rootScope) {
+
+    });
+    </script>

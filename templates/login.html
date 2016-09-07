@@ -1,0 +1,45 @@
+<script>
+app.controller('loginCtrl', function($scope, $http, $rootScope, $location) {
+  $scope.login = function(){
+    $http.get("/api/user/" + $scope.username + "/" + $scope.password)
+    .then(
+      function(res){
+        console.log(res);
+        $rootScope.username = $scope.username;
+        $rootScope.password = $scope.password;
+        $rootScope.res = res.data;
+        $location.path("/welcome");
+      },
+      function(res){
+        console.log("Work not works");
+      }
+    )
+  }
+});
+</script>
+
+<!-- Log in-->
+<div class="container" ng-controller="loginCtrl">
+  <form>
+    <div style="display:inline-block">
+      <div>
+        <p>Username:</p>
+      </div>
+      <div>
+        <input ng-model="username" type="text" id="username" name="username"/><br/>
+      </div>
+    </div>
+    <div style="display:inline-block">
+      <div>
+        <p>Password:</p>
+      </div>
+      <div>
+        <input ng-model="password" type="password" id="password" name="password"/><br/>
+      </div>
+    </div>
+    <button ng-click="login()">Log in</button>
+  </form>
+</div>
+<!-- Sing up-->
+<div class="container">
+</div>

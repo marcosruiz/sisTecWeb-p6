@@ -1,0 +1,38 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+  <!-- Angular js -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>
+  <script>
+  'use strict';
+  var app = angular.module('myApp', ['ngRoute']);
+
+  app.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider
+    .when('/', {
+      templateUrl : 'login.html'
+    })
+    .when('/welcome', {
+      templateUrl : 'welcome.html'
+    })
+    .when('/memo', {
+      templateUrl : 'memo.html'
+    })
+    .otherwise({
+      redirectTo: '/'
+    });
+  }]);
+  </script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+</head>
+<body>
+
+  <div ng-view></div>
+
+</body>
+</html>
