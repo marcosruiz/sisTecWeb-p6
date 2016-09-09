@@ -9,6 +9,8 @@ var http = require('http');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static(__dirname + '/public'));
+
 // Todos los endpoint del API los colocaremos en este fichero
 var routesAPI = require("./routes/routesAPI.js")(app, mongoOp, http);
 var routesWeb = require("./routes/routesWeb.js")(app, http);
