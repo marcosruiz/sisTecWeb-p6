@@ -2,22 +2,25 @@
 <div class="container">
   <form>
     <div style="display:inline-block">
+      <br>
       <div>
-        <p>Username:</p>
+        <p><strong>Username:</strong></p>
       </div>
       <div>
-        <input ng-model="username" type="text" id="username" name="username"/><br/>
+        <input ng-model="username" type="text" id="username" name="username" class="form-control"/><br/>
       </div>
     </div>
     <div style="display:inline-block">
       <div>
-        <p>Password:</p>
+        <p><strong>Password:</strong></p>
       </div>
       <div>
-        <input ng-model="password" type="password" id="password" name="password"/><br/>
+        <input ng-model="password" type="password" id="password" name="password" class="form-control"/><br/>
       </div>
     </div>
-    <button ng-click="login()">Log in</button>
+    <div>
+      <button ng-click="login()" class="btn btn-default">Log in</button>
+    </div>
   </form>
 </div>
 <!-- Sing up-->

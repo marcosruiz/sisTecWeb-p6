@@ -1,6 +1,7 @@
 app.controller('loginCtrl', function($scope, $http, $rootScope, $location) {
 
   $scope.login = function(){
+    console.log("function login was called");
     $http.get("/api/user/" + $scope.username + "/" + $scope.password)
     .then(
       function(res){
