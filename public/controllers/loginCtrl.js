@@ -17,4 +17,8 @@ app.controller('loginCtrl', function($scope, $http, $rootScope, $location) {
     )
   }
 
+  $scope.singup = function(){
+    //TODO
+  }
+
 });

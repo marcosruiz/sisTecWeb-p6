@@ -11,7 +11,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     templateUrl : '/views/welcome.html',
     controller: 'welcomeCtrl'
   })
-  .when('/memo', {
+  .when('/memo/:id', {
     templateUrl : '/views/memo.html',
     çcontroller: 'memoCtrl'
   })

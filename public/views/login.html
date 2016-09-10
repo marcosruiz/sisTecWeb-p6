@@ -1,5 +1,6 @@
 <!-- Log in-->
 <div class="container">
+  <h1>Log in</h1>
   <form>
     <div style="display:inline-block">
       <br>
@@ -20,6 +21,30 @@
     </div>
     <div>
       <button ng-click="login()" class="btn btn-default">Log in</button>
+    </div>
+  </form>
+
+  <h1>Sing up</h1>
+  <form>
+    <div style="display:inline-block">
+      <br>
+      <div>
+        <p><strong>Username:</strong></p>
+      </div>
+      <div>
+        <input ng-model="username" type="text" id="username" name="username" class="form-control"/><br/>
+      </div>
+    </div>
+    <div style="display:inline-block">
+      <div>
+        <p><strong>Password:</strong></p>
+      </div>
+      <div>
+        <input ng-model="password" type="password" id="password" name="password" class="form-control"/><br/>
+      </div>
+    </div>
+    <div>
+      <button ng-click="singup()" class="btn btn-default">Log in</button>
     </div>
   </form>
 </div>
