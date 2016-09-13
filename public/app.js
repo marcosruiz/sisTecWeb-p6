@@ -13,7 +13,7 @@ app.config(['$routeProvider', function ($routeProvider) {
   })
   .when('/memo/:id', {
     templateUrl : '/views/memo.html',
-    çcontroller: 'memoCtrl'
+    controller: 'memoCtrl'
   })
   .otherwise({
     redirectTo: '/'

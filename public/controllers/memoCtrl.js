@@ -1,11 +1,13 @@
-app.controller('memoCtrl', function($scope, $http, $rootScope, $routeParams, $location) {
+app.controller('memoCtrl', function($scope, $http, $routeParams, $location) {
 
   getMyMemo = function(){
+    console.log("function getMyMemo was called");
     $http.get("/api/memo/" + $routeParams.id)
     .then(
       function(res){
         console.log("function getMyMemo success");
-        $scope.memo = res.data;
+        //console.log(res.data);
+        $scope.res = res.data;
       },
       function(res){
         console.log("function getMyMemo error");
@@ -13,21 +15,27 @@ app.controller('memoCtrl', function($scope, $http, $rootScope, $routeParams, $lo
     )
   }
 
-  function downloadFile(){
-    //$location.path("/api/file/" + $routeParams.id);
-    $http.get("/api/file/" + $routeParams.id)
+  /*
+  It deletes a memo and call to getMemos
+  */
+  $scope.deleteMemo = function(id){
+    console.log("function deleteMemo was called");
+    $http.delete("/api/memo/" + id)
     .then(
-      function(res){
-        console.log("function downloadFile success");
+      function(data){
+        console.log("DELETE /api/memo success");
+        if(!data.data.error){
+          $scope.res = {"error": true, "message": "Memo deleted"};
+        }
       },
-      function(res){
-        console.log("function downloadFile error");
+      function(){
+        console.log("DELETE /api/memo error");
       }
     )
   }
 
-  function deleteMemo(id){
-    //TODO
+  $scope.goBack = function(){
+    $location.path("/welcome");
   }
 
   getMyMemo();

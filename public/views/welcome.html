@@ -54,6 +54,7 @@
               <th>Date</th>
               <th>File</th>
               <th>Delete</th>
+              <th>Info</th>
             </tr>
             <tr ng-repeat="memo in memos">
               <td>{{ memo._id }}</td>
@@ -61,6 +62,7 @@
               <td>{{ memo.date }}</td>
               <td><a ng-href="../api/file/{{memo._id}}">{{ memo.route_file }}</a></td>
               <td><button ng-click="deleteMemo(memo._id)" class="btn btn-default">Delete</button></td>
+              <td><a ng-href="../#/memo/{{memo._id}}">Info</a></td>
             </tr>
           </table>
         </div>

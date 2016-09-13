@@ -95,17 +95,22 @@ var appRouter = function(app, mongoOp, http) {
     var response = {};
     mongoOp.findOne({memos: {$elemMatch: {_id: req.params.idMemo}}}, function(err, data){
       if(err){
-        response = {"error" : true, "message" : "Note not found"}
+        response = {"error" : true, "message" : "Memo not found"};
       }else{
-        var memos = data.memos;
-        for(i = 0; i < memos.length; i++){
-          var myMemo;
-          idString = memos[i]._id.toString();
-          if(idString==req.params.idMemo){
-            myMemo = memos[i];
-          }
+        if(data == null){
+          response = {"error" : true, "message" : "Memo not found"};
         }
-        response = {"error" : false, "message" : myMemo}
+        else{
+          var memos = data.memos;
+          for(i = 0; i < memos.length; i++){
+            var myMemo;
+            idString = memos[i]._id.toString();
+            if(idString==req.params.idMemo){
+              myMemo = memos[i];
+            }
+          }
+          response = {"error" : false, "message" : myMemo};
+        }
       }
       res.json(response);
     });
@@ -173,7 +178,7 @@ var appRouter = function(app, mongoOp, http) {
       }
 
       //Add a new memo
-      mongoOp.findOne({username: req.body.username, password: db.password},function(err,data){
+      mongoOp.findOne({username: db.username, password: db.password},function(err,data){
         if(err) {
           response = {"error" : true,"message" : "Error fetching data"};
           res.json(response);
