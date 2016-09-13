@@ -1,8 +1,11 @@
 var appRouter = function(app, mongoOp, http) {
-  var path = "C:/Users/marco/Documents/GitHub/sisTecWeb-p5/tmp/";
+  var path = "C:/Users/marco/Documents/GitHub/sisTecWeb-p6/tmp/";
   var multer  = require('multer');
   var upload = multer({ dest: path });
   var fs = require('fs');
+
+  var multiparty = require('connect-multiparty');
+  var multipartyMiddleware = multiparty();
 
   ///////////////USERS///////////////
 
@@ -120,58 +123,72 @@ var appRouter = function(app, mongoOp, http) {
   Add a memo
   Body: username, password, text, date, file
   */
-  app.post("/api/memo/", upload.single('file'), function(req, res) {
+  app.post("/api/memo/", multipartyMiddleware, function(req, res) {
     console.log("POST /api/memo was called. ");
-
-    var db = new mongoOp();
-    var response = {};
-    db.username = req.body.username;
-    db.password = require('crypto')
-    .createHash('sha1')
-    .update(req.body.password)
-    .digest('base64');
-
-    //It creates a memo
-    var memo;
-    if (req.file) {
-      //Rename file
-      route = path + req.file.originalname;
-      fs.rename(req.file.path, route, function(error) {
-  			if (error) {
-  				fs.unlink(route);
-  				fs.rename(req.file.path, route);
-  			}
-  		});
-
-      memo = {text: req.body.text, date: req.body.date, route_file: req.file.originalname};
-    }else{
-      memo = {text: req.body.text, date: req.body.date, route_file: ""};
+    console.log(req.body);
+    var t = req.body.memoToAdd.text;
+    var d = req.body.memoToAdd.date;
+    if(t == null || d == null || t == "" || d == "null"){
+      console.log("Text and Date are obligatory fileds");
+      res.json({"error" : true, "message" : "Text and Date are obligatory fileds"});
     }
+    else{
+      var db = new mongoOp();
+      var response = {};
+      db.username = req.body.memoToAdd.username;
+      db.password = require('crypto')
+      .createHash('sha1')
+      .update(req.body.memoToAdd.password)
+      .digest('base64');
 
-    //Add a new memo
-    mongoOp.findOne({username: req.body.username, password: db.password},function(err,data){
-      if(err) {
-        response = {"error" : true,"message" : "Error fetching data"};
-        res.json(response);
-      } else {
-        mongoOp.update(data, {$push: {memos: memo}},  { upsert: true }, function(err, user){
-          if(err){
-            res.send(err);
-          } else {
-            //return res.json(user);
-            //It returns user updated
-            mongoOp.findOne({'username': db.username, 'password': db.password},function(err,data){
-              if(err) {
-                response = {"error" : true,"message" : "Error updating data"};
-              } else {
-                response = {"error" : false,"message" : data};
-              }
-              res.json(response);
-            });
-          }
-        });
+      //It creates a memo
+      var memo;
+
+      //console.log(req.body.memoToAdd);
+      //console.log(req.files.file);
+      if (req.files.file != null) {
+        console.log("entra");
+        //Rename file
+        route = path + req.files.file[0].name;
+        var oldRoute = req.files.file[0].path;
+        fs.rename(oldRoute, route, function(error) {
+    			if (error) {
+            console.log("error");
+    				fs.unlink(route);
+    				fs.rename(oldRoute, route);
+    			}
+    		});
+
+        memo = {text: req.body.memoToAdd.text, date: req.body.memoToAdd.date, route_file: req.files.file[0].name};
+      }else{
+        memo = {text: req.body.memoToAdd.text, date: req.body.memoToAdd.date, route_file: ""};
       }
-    });
+
+      //Add a new memo
+      mongoOp.findOne({username: req.body.username, password: db.password},function(err,data){
+        if(err) {
+          response = {"error" : true,"message" : "Error fetching data"};
+          res.json(response);
+        } else {
+          mongoOp.update(data, {$push: {memos: memo}},  { upsert: true }, function(err, user){
+            if(err){
+              res.send(err);
+            } else {
+              //return res.json(user);
+              //It returns user updated
+              mongoOp.findOne({'username': db.username, 'password': db.password},function(err,data){
+                if(err) {
+                  response = {"error" : true,"message" : "Error updating data"};
+                } else {
+                  response = {"error" : false,"message" : data};
+                }
+                res.json(response);
+              });
+            }
+          });
+        }
+      });
+    }
   });
 
   /*

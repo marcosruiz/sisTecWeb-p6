@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('memoApp', ['ngRoute']);
+var app = angular.module('memoApp', ['ngRoute','ngFileUpload']);
 
 app.config(['$routeProvider', function ($routeProvider) {
   $routeProvider
