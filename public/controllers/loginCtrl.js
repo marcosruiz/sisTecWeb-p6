@@ -1,16 +1,20 @@
 app.controller('loginCtrl', function($scope, $http, $rootScope, $location) {
 
-  $scope.login = function(){
+  $scope.login = function(userToLogin){
     console.log("function login was called");
-    $http.get("/api/user/" + $scope.username + "/" + $scope.password)
+    $http.get("/api/user/" + userToLogin.username + "/" + userToLogin.password)
     .then(
       function(res){
         console.log("GET /api/user success");
-        console.log(res);
-        $rootScope.username = $scope.username;
-        $rootScope.password = $scope.password;
         $rootScope.res = res.data;
-        $location.path("/welcome");
+        if(res.data.error){
+          console.log("Error");
+        }else{
+          console.log(res.data);
+          $rootScope.username = userToLogin.username;
+          $rootScope.password = userToLogin.password;
+          $location.path("/welcome");
+        }
       },
       function(res){
         console.log("GET /api/user error");
@@ -19,8 +23,15 @@ app.controller('loginCtrl', function($scope, $http, $rootScope, $location) {
     )
   }
 
-  $scope.singup = function(){
-    //TODO
+  $scope.singup = function(userToCreate){
+    $http.post("/api/user",userToCreate)
+    .success(function(res){
+      console.log("POST /api/user success");
+      $rootScope.res = res;
+    }).error(function(res){
+      console.log("POST /api/user error");
+      $rootScope.res = res;
+    });
   }
 
 });

@@ -14,7 +14,7 @@
             <p><strong>Date:</strong></p>
           </div>
           <div>
-            <input ng-model="memoToAdd.date" type="date" id="date" name="date" class="form-control"/><br/>
+            <input ng-model="memoToAdd.date" type="date" id="date" name="date" class="form-control" required/><br/>
           </div>
         </div>
         <div style="display:inline-block">
@@ -22,7 +22,7 @@
             <p><strong>Text:</strong></p>
           </div>
           <div>
-            <input ng-model="memoToAdd.text" type="text" id="text" name="text" class="form-control"/><br/>
+            <input ng-model="memoToAdd.text" type="text" id="text" name="text" class="form-control" required/><br/>
           </div>
         </div>
         <div style="display:inline-block">
@@ -31,12 +31,13 @@
             <p><strong>File:</strong></p>
           </div>
           <div>
-            <div class="button" ngf-select ng-model="memoToAdd.file" type="file" id="file" name="file" class="form-control" multiple="multiple">Select file</button><br/>
-            </div>
+              <input class="btn btn-default button" ngf-select ng-model="memoToAdd.file" type="file" id="file" name="file" class="form-control" multiple="multiple"><br/>
+              </input>
           </div>
-          <div>
-            <button ng-click="addMemo()" class="btn btn-default">Add memo</button>
-          </div>
+        </div>
+        <div>
+          <button ng-click="addMemo()" class="btn btn-default">Add memo</button>
+        </div>
         </form>
       </div>
       <!-- End add memo -->

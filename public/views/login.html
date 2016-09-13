@@ -1,5 +1,11 @@
 <!-- Log in-->
 <div class="container">
+  <div ng-if="res.error">
+    <br>
+    <div class="alert alert-danger" role="alert"><strong>Alert!</strong> {{res.message}}</div>
+  </div>
+  
+  <!-- Log in-->
   <h1>Log in</h1>
   <form>
     <div style="display:inline-block">
@@ -8,7 +14,7 @@
         <p><strong>Username:</strong></p>
       </div>
       <div>
-        <input ng-model="username" type="text" id="username" name="username" class="form-control"/><br/>
+        <input ng-model="userToLogin.username" type="text" id="username" name="username" class="form-control" required/><br/>
       </div>
     </div>
     <div style="display:inline-block">
@@ -16,14 +22,15 @@
         <p><strong>Password:</strong></p>
       </div>
       <div>
-        <input ng-model="password" type="password" id="password" name="password" class="form-control"/><br/>
+        <input ng-model="userToLogin.password" type="password" id="password" name="password" class="form-control" required/><br/>
       </div>
     </div>
     <div>
-      <button ng-click="login()" class="btn btn-default">Log in</button>
+      <button ng-click="login(userToLogin)" class="btn btn-default">Log in</button>
     </div>
   </form>
 
+  <!-- Sing up-->
   <h1>Sing up</h1>
   <form>
     <div style="display:inline-block">
@@ -32,7 +39,7 @@
         <p><strong>Username:</strong></p>
       </div>
       <div>
-        <input ng-model="username" type="text" id="username" name="username" class="form-control"/><br/>
+        <input ng-model="userToCreate.username" type="text" id="username" name="username" class="form-control" required/><br/>
       </div>
     </div>
     <div style="display:inline-block">
@@ -40,14 +47,11 @@
         <p><strong>Password:</strong></p>
       </div>
       <div>
-        <input ng-model="password" type="password" id="password" name="password" class="form-control"/><br/>
+        <input ng-model="userToCreate.password" type="password" id="password" name="password" class="form-control" required/><br/>
       </div>
     </div>
     <div>
-      <button ng-click="singup()" class="btn btn-default">Log in</button>
+      <button ng-click="singup(userToCreate)" class="btn btn-default">Sing up</button>
     </div>
   </form>
-</div>
-<!-- Sing up-->
-<div class="container">
 </div>

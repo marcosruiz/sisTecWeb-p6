@@ -14,23 +14,26 @@ var appRouter = function(app, mongoOp, http) {
   */
   app.get("/api/user/:userName/:password", function(req, res) {
     console.log("GET /api/user was called. ");
-
-    var passwordEn;
-    passwordEn = require('crypto')
-    .createHash('sha1')
-    .update(req.params.password)
-    .digest('base64');
-    var response = {};
-    mongoOp.findOne({username : req.params.userName, password: passwordEn},function(err,data){
-      // Mongo command to fetch all data from collection.
-      if(err) {
-        response = {"error" : true, "message" : "Incorrect login"};
-      } else {
-        data.password
-        response = {"error" : false, "message" : data};
-      }
-      res.json(response);
-    });
+    if(req.params == null || req.params.password == null || req.params.password == "" || req.params.userName == null || req.params.userName == ""){
+      res.json({"error" : true, "message" : "Incorrect login"});
+    }
+    else{
+      var passwordEn;
+      passwordEn = require('crypto')
+      .createHash('sha1')
+      .update(req.params.password)
+      .digest('base64');
+      var response = {};
+      mongoOp.findOne({username : req.params.userName, password: passwordEn},function(err,data){
+        // Mongo command to fetch all data from collection.
+        if(err || data == null) {
+          response = {"error" : true, "message" : "Incorrect login"};
+        } else {
+          response = {"error" : false, "message" : data};
+        }
+        res.json(response);
+      });
+    }
   });
 
   /*
@@ -39,26 +42,31 @@ var appRouter = function(app, mongoOp, http) {
   */
   app.post("/api/user", function(req, res) {
     console.log("POST /api/user was called. ");
-
-    var db = new mongoOp();
-    var response = {};
-    // fetch email and password from REST request.
-    // Add strict validation when you use this in Production.
-    db.username = req.body.username;
-    // Hash the password using SHA1 algorithm.
-    db.password = require('crypto')
-    .createHash('sha1')
-    .update(req.body.password)
-    .digest('base64');
-    db.memos = [];
-    db.save(function(err){
-      if(err) {
-        response = {"error" : true,"message" : "Error adding data"};
-      } else {
-        response = {"error" : false,"message" : "Data added"};
-      }
-      res.json(response);
-    });
+    var u = req.body.username;
+    var p = req.body.password;
+    if(u == null || u == "" || p == null || p == ""){
+      res.json({"error" : true, "message" : "Input void"});
+    }else{
+      var db = new mongoOp();
+      var response = {};
+      // fetch email and password from REST request.
+      // Add strict validation when you use this in Production.
+      db.username = req.body.username;
+      // Hash the password using SHA1 algorithm.
+      db.password = require('crypto')
+      .createHash('sha1')
+      .update(req.body.password)
+      .digest('base64');
+      db.memos = [];
+      db.save(function(err){
+        if(err) {
+          response = {"error" : true,"message" : "Error adding data"};
+        } else {
+          response = {"error" : false,"message" : "Data added"};
+        }
+        res.json(response);
+      });
+    }
   });
 
   /*
